@@ -47,6 +47,9 @@ class sfTwigView extends sfPHPView
 
     $this->configuration = $this->context->getConfiguration();
 
+    require_once sfConfig::get('sf_twig_lib_dir', dirname(__FILE__) . '/../lib/vendor/Twig/lib') . '/Twig/Autoloader.php';
+    Twig_Autoloader::register();
+
     // empty array becuase it changes based on the rendering context
     $this->loader = new Twig_Loader_Filesystem(array());
 
