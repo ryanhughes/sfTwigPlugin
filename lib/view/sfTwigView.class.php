@@ -88,7 +88,7 @@ class sfTwigView extends sfPHPView
 
     foreach ($prefixes as $prefix)
     {
-      $class_name = $prefix.'_Twig_Extension';
+      $class_name = $prefix . '_Twig_Extension';
       if (class_exists($class_name))
       {
         $this->twig->addExtension(new $class_name());
@@ -124,7 +124,15 @@ class sfTwigView extends sfPHPView
       $this->dispatcher->notify(new sfEvent($this, 'application.log', array(sprintf('Render "%s"', $file))));
     }
 
-    $this->loader->setPaths((array) realpath(dirname($file)));
+    $paths = array(
+      realpath(dirname($file)),
+      // allow global template includes
+      $this->getDecoratorDirectory(),
+      // allow cross module template includes
+      sfConfig::get('sf_app_dir') . '/modules',
+    );
+
+    $this->loader->setPaths($paths);
 
     $event = $this->dispatcher->filter(new sfEvent($this, 'template.filter_parameters'), $this->attributeHolder->getAll());
 
