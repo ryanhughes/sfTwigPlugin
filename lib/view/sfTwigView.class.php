@@ -127,7 +127,7 @@ class sfTwigView extends sfPHPView
     $paths = array(
       realpath(dirname($file)),
       // allow global template includes
-      $this->getDecoratorDirectory(),
+      sfConfig::get('sf_app_dir') . '/templates',
       // allow cross module template includes
       sfConfig::get('sf_app_dir') . '/modules',
     );
